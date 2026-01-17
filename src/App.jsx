@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 
 const Terminal = () => {
@@ -16,20 +17,46 @@ const Terminal = () => {
     terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [history]);
 
-  // Expanded Commands matching your reference
   const commands = {
     help: (
       <div className="mt-2">
-        <p><span className="text-pink-400/70">about</span>     - learn more about me</p>
-        <p><span className="text-pink-400/70">education</span> - explore my academic journey</p>
-        <p><span className="text-pink-400/70">work</span>      - view my relevant experience</p>
-        <p><span className="text-pink-400/70">projects</span>  - check out my projects</p>
-        <p><span className="text-pink-400/70">skills</span>    - view my skill set</p>
-        <p><span className="text-pink-400/70">socials</span>   - discover my social media profiles</p>
-        <p><span className="text-pink-400/70">welcome</span>   - view the introductory section</p>
-        <p><span className="text-pink-400/70">pwd</span>       - show the current working directory</p>
-        <p><span className="text-pink-400/70">echo</span>      - display custom text or messages</p>
-        <p><span className="text-pink-400/70">clear</span>     - clear the terminal display</p>
+        <p><span className="text-pink-400/70">about</span>      - learn more about me</p>
+        <p><span className="text-pink-400/70">education</span>  - explore my academic journey</p>
+        <p><span className="text-pink-400/70">work</span>       - view my relevant experience</p>
+        <p><span className="text-pink-400/70">projects</span>   - check out my projects</p>
+        <p><span className="text-pink-400/70">skills</span>     - view my skill set</p>
+        <p><span className="text-pink-400/70">socials</span>    - discover my social media profiles</p>
+        <p><span className="text-pink-400/70">certification</span> - view my professional credentials</p>
+        <p><span className="text-pink-400/70">welcome</span>    - view the introductory section</p>
+        <p><span className="text-pink-400/70">pwd</span>        - show the current working directory</p>
+        <p><span className="text-pink-400/70">echo</span>       - display custom text</p>
+        <p><span className="text-pink-400/70">clear</span>      - clear the terminal display</p>
+      </div>
+    ),
+    certifications: (
+      <div className="mt-2 border-l-2 border-pink-500/30 pl-4">
+        <p className="text-yellow-400 font-bold mb-2 underline">Oracle Cloud Professional Certifications:</p>
+        
+        <div className="mb-3">
+          <p className="text-pink-100 font-semibold">● Oracle APEX Cloud Certified Developer Professional</p>
+          <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=FD1D70C86C6ED1C091BC2503F180049C46CF756E7AAB2F9AD8B0B1EBDA76488B" target="_blank" rel="noreferrer" className="text-blue-400 text-sm hover:underline ml-4">
+            [Verify Badge ↗]
+          </a>
+        </div>
+
+        <div className="mb-3">
+          <p className="text-pink-100 font-semibold">● Oracle Cloud Infrastructure 2025 Certified DevOps Professional</p>
+          <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=D6B22419412CC6CA948A9D45162113CDFF35C3816737C07CA29798A978D878E7" target="_blank" rel="noreferrer" className="text-blue-400 text-sm hover:underline ml-4">
+            [Verify Badge ↗]
+          </a>
+        </div>
+
+        <div className="mb-3">
+          <p className="text-pink-100 font-semibold">● Oracle Cloud Infrastructure 2025 Certified Data Science Professional</p>
+          <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=ECB8DB4E59812E29CC9B941E9F293C025B4368DA7365B8D2B92533B1626AA20F" target="_blank" rel="noreferrer" className="text-blue-400 text-sm hover:underline ml-4">
+            [Verify Badge ↗]
+          </a>
+        </div>
       </div>
     ),
     about: "I am a Software Developer specialized in GenAI, MLOps, API, Frontend, Big Data & DevOps.",
@@ -51,9 +78,15 @@ const Terminal = () => {
 
   const handleCommand = (e) => {
     if (e.key === 'Enter') {
-      const parts = input.split(' ');
-      const mainCommand = parts[0].toLowerCase().trim();
-      const args = parts.slice(1).join(' '); // For 'echo' command
+      const parts = input.trim().split(' ');
+      const mainCommand = parts[0].toLowerCase();
+      const args = parts.slice(1).join(' ');
+
+      // Fix: Defined isCertCommand to handle different user inputs
+      const isCertCommand = 
+        mainCommand === 'certification' || 
+        mainCommand === 'certifications' || 
+        (mainCommand === 'professional' && parts[1] === 'certification');
 
       const newHistory = [...history, { type: 'input', content: input }];
 
@@ -61,6 +94,9 @@ const Terminal = () => {
         setHistory([{ type: 'path', content: 'C:\\Users\\aditi\\terminal' }]);
       } else if (mainCommand === 'echo') {
         newHistory.push({ type: 'output', content: args || "Echo what?" });
+        setHistory(newHistory);
+      } else if (isCertCommand) {
+        newHistory.push({ type: 'output', content: commands.certifications });
         setHistory(newHistory);
       } else if (commands[mainCommand]) {
         newHistory.push({ type: 'output', content: commands[mainCommand] });
