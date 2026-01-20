@@ -1,4 +1,10 @@
+# Personal Website
+<img width="1908" height="1012" alt="Screenshot 2026-01-20 141904" src="https://github.com/user-attachments/assets/141bc607-2cc2-4b73-b8c7-3c965e2774e2" />
+
+<img width="904" height="875" alt="Screenshot 2026-01-20 142030" src="https://github.com/user-attachments/assets/3c3455e1-cabe-45fd-8203-b66d6b66ed43" />
+
 # React + Vite
+
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
